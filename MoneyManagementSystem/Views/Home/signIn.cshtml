@@ -1,0 +1,137 @@
+﻿<head>
+    
+    <script>
+    
+    $(document).ready(
+        function (){
+        $("#Error").hide();
+        }
+    );
+
+    $(document).ready(function (){
+            $("#Success").hide();
+            }
+        );
+
+       $(document).ready(function(){
+           $("button").click(function(){
+               // show hide paragraph on button click
+                   // check paragraph once toggle effect is completed
+                   control(document.getElementById('exampleInputEmail1').value, document.getElementById('exampleInputPassword1').value);
+                   
+                   if($("#Success").is(":visible")){
+                       
+                       $.ajax({
+                           // edit to add steve's suggestion.
+                           //url: "/ControllerName/ActionName",
+                           url: '/Home/User?username='
+                           + document.getElementById('exampleInputEmail1').value + 
+                           "&password=" + document.getElementById('exampleInputPassword1').value,
+                           success: function(data) {
+                                // your data could be a View or Json or what ever you returned in your action method 
+                                // parse your data here
+                                document.getElementById('exampleInputEmail1').value = "";
+                                document.getElementById('exampleInputPassword1').value = "";
+                                if (data === -1){
+                                    alert("You failed!");
+                                    
+                                }else{
+                                    foo(data);
+                                }
+                               
+                                
+                          
+                           }, error: function (){
+                               alert("İşlem tamamlanamadı");
+                               
+                               document.getElementById('Error').innerHTML = "An unkown problem occured, try again later!";
+                               $("#Error").show();
+                               $("Success").hide();
+                           }
+                         
+                       });
+                       
+                   } else{
+                       document.getElementById('Error').innerHTML = "Plase fill the reduction of print pastes!";
+                       $("#Error").show();
+                   }
+           });
+       });
+       
+       
+    </script>
+</head>
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>title</h2>
+
+
+
+
+
+
+<div style="margin:0px auto; display:block; width:500px;">
+    
+    
+    <form>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" itemid="emailField">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        </div>
+
+    </form>
+    <button type="submit" class="btn btn-primary" id="mantar" onclick="">Submit</button>
+</div>
+
+
+<div class="alert alert-danger" role="alert" id="Error">
+    Plase fill the reduction of print pastes!
+</div>
+
+<div class="alert alert-success" role="alert" id="Success">
+    
+    You have successfully create your account!
+</div>
+
+
+<p id="mypi"></p>
+
+
+
+
+
+<script>
+function control(email, pwd){
+        if (email === "" && pwd === ""){    
+         $("#Error").show();
+         
+       }else{
+           $("#Error").hide();
+           $("#Success").show();
+       }
+
+}
+
+function GetMessage(){
+    $.get("/Home/GetMessage", function (data) {
+                $("p").html(data);
+     });
+}
+
+
+function foo(userId) {
+    window.location.href = '/User/User?userId=' + userId;
+}
+
+
+
+</script>
+ 

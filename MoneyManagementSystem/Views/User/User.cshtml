@@ -1,0 +1,759 @@
+﻿@using GridMvc.Html
+@model MoneyManagementSystem.ViewModel.CustomerViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/User/DashBoard.cshtml";
+  
+}
+
+
+
+
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300i,400" rel="stylesheet">
+  <link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" type="text/css" />
+<link href="~/Scripts/jquery-3.3.1.min.js">
+
+  <script>
+  
+  $(window).on('beforeunload', function(){
+        alert( 'Are you sure you want to leave?');
+  });
+
+   $(document).ready(
+           
+              function (){
+                
+                $("#statisticButton").click(function (){
+                  console.log('statistice bastın');
+                  
+                   $.ajax({
+                                                          //int customerId, string companyName, int amount, int price
+                                                           url: '/User/Statistics?customerId=' + @Model.Customer.Id ,
+                                                           success: function(data) {
+                                                                // your data could be a View or Json or what ever you returned in your action method 
+                                                                // parse your data here
+                                                                
+                                                           }, error: function (){
+                                                               alert("İşlem tamamlanamadı");
+                                                           }
+                                                         
+                                                       });
+                });
+                
+                
+                $("#completeExchangeOperation").click(
+                        function (){
+                           //forDebugMethod($('select[name=currencySelector] option').filter(':selected').text(), document.getElementById('moneyAmount').value);
+                        } 
+                        
+                        
+                );
+                  $("#OnlyIHaveTable").hide();
+                   $(window).on('beforeunload', function(){
+                          alert( 'Are you sure you want to leave?');
+                    });
+
+                    $("p").click(function(){
+                          $("#gosterge").hide();
+                    });
+
+                  window.addEventListener('beforeunload', function(event) {
+                    alert("deneme");
+
+                  });
+
+                  $(window).bind("beforeunload", function () {
+                       alert("You are about to close the window");
+                  });
+                  
+                  $("#OnlyIHave").click(function(){
+                    console.log("tıkladın");
+                         if ($("#OnlyIHaveTable").is(":hidden")){
+                           $("#OnlyIHaveTable").show();
+                           $("#wholeAllotmentsTable").hide();
+                         }else{
+                            $("#OnlyIHaveTable").hide();
+                            $("#wholeAllotmentsTable").show();
+
+                         }
+                  });
+          });
+   
+    
+  </script>
+</head>
+@Scripts.Render("~/Scripts/gridmvc.js") 
+
+
+
+  <div class="thecontainerr" style="margin: 100px;">
+    <div class="card"
+         onmouseover="showBudged('dollarBudget', true, ' $', 'dollar')" 
+         onmouseout="showBudged('dollarBudget', false, '','')"
+    >
+      <h3 class="title">Dollar</h3><br/>
+      <button id="buyDollar"  style="position: absolute; left: 11%; top: 25%; background-color: #EBA91A; color: yellow" onclick="arrangeToCurrencyName('dollar', true)"> Buy </button>      
+      <button id="sellDollar"  style="position: absolute; left: 70%; top: 25%;  background-color: #752852; color: #0f0f0f" onclick="arrangeFromCurrencyName('dollar', true)"> Sell </button>      
+          
+      <div class="bar">
+        <div class="emptybar"></div>
+        <div class="filledbar"></div>
+        <p class="bugdet" id="dollarBudget" style="color:green"> </p>
+      </div>
+      <div class="circle">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <circle class="stroke" cx="60" cy="60" r="50"/>
+          <text x="15%" y="45%" stroke="#51c5cf" stroke-width="2px" dy=".3em"> Look </text>
+
+        </svg>
+       
+      </div>
+@*        <button type="submit" style=" position: absolute; *@
+@*                                           bottom: 10px; *@
+@*                                           left: 50%; *@
+@*                                           margin-left: 15%;  "> BUY</button> *@
+    </div>
+    <div class="card" onmouseover="showBudged('turkishBudget', true, ' ₺', 'tl')"
+      onmouseout="showBudged('turkishBudget',false, '', '')"
+         >
+      <h3 class="title">Turkish Lira</h3><br/>
+       <button id="buyTL"  style="position: absolute; left: 11%; top: 25%; background-color: #EBA91A; color: yellow" onclick="arrangeToCurrencyName('turkish lira', true)"> Buy </button>      
+      <button id="sellTL"  style="position: absolute; left: 70%; top: 25%;  background-color: #752852; color: #0f0f0f"  onclick="arrangeFromCurrencyName('turkish lira', true)"> Sell </button>      
+          
+      <div class="bar">
+        <div class="emptybar"></div>
+        <div class="filledbar"></div>
+        <p class="bugdet" id="turkishBudget" style="color:red"> </p>
+
+      </div>
+      <div class="circle">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <circle class="stroke" cx="60" cy="60" r="50"/>
+        </svg>
+      </div>
+    </div>
+    <div class="card" onmouseover="showBudged('euroBudget', true, '€', 'euro')" 
+    onmouseout="showBudged('euroBudget', false, '', '')"
+         >
+      <h3 class="title">Euro</h3><br/>
+      <button id="buyEuro"  style="position: absolute; left: 11%; top: 25%; background-color: #EBA91A; color: yellow" onclick="arrangeToCurrencyName('euro', true)"> Buy </button>      
+      <button id="sellEuro"  style="position: absolute; left: 70%; top: 25%;  background-color: #752852; color: #0f0f0f" onclick="arrangeFromCurrencyName('euro', true)"> Sell </button>      
+          
+      <div class="bar">
+        <div class="emptybar"></div>
+        <div class="filledbar"></div>
+        <p class="bugdet" id="euroBudget" style="color:cornflowerblue"> </p>
+      </div>
+      <div class="circle">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <circle class="stroke" cx="60" cy="60" r="50"/>
+        </svg>
+      </div>
+    </div>
+    
+    <div class="card"  onmouseover="showBudged('GoldBudged', true, 'gr', 'gold' )" onmouseout="showBudged('GoldBudged', false)">
+      <h3 class="title" id="goldCard"  >Gold </h3><br/>
+      <button id="buyGold"  style="position: absolute; left: 11%; top: 25%; background-color: #EBA91A; color: yellow" onclick="arrangeToCurrencyName('gold', true)"> Buy </button>      
+      <button id="sellGold"  style="position: absolute; left: 70%; top: 25%;  background-color: #752852; color: #0f0f0f" onclick="arrangeFromCurrencyName('gold', true)"> Sell </button>      
+    
+      <div class="bar">
+        <div class="emptybar"></div>
+        <div class="filledbar"></div>
+        <p class="bugdet" id="GoldBudged" style="color:yellow"> </p>
+      </div>
+      
+      <div class="circle">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="250px" height="250px">
+
+          <circle class="stroke" cx="60" cy="60" r="50" text-rendering="inherit" id="sterlin"></circle>
+        </svg>
+      </div>
+    </div>
+  </div>
+@{
+  var customerID = Model.Customer.Id;
+  string brandName = null;
+  }
+
+<p id="gosterge" style="color: white"> bu bir göstergedir </p>
+
+<div style="margin-left: 50%" >
+  <label style="color: black; font-size: larger"><input type="checkbox" name="checkbox" value="value" id="OnlyIHave" >Only allotment I have.</label>
+</div>
+
+<div class="container" id="OnlyIHaveTable">
+  <span class="grid-filter-btn" title="filter this column"></span>
+  
+  @Html.Grid(Model.Customer.CompanyInvestments).Columns(cols =>
+  {    
+    cols.Add(data => data.BrandName).Titled("Brand Name").Filterable(true);
+    
+    cols.Add().Sanitized(false).Encoded(false).Titled("Purchase Price").RenderValueAs(
+      e => "<p>" + Model.Brands.First(brands => brands.Name == e.BrandName).PurchasePrice + "</p>");
+    
+    cols.Add().Sanitized(false).Encoded(false).Titled("Purchase Price").RenderValueAs(
+      e => "<p>" + Model.Brands.First(brands => brands.Name == e.BrandName).SalePrice + "</p>");
+    
+    cols.Add(data => data.Number).Titled("you have").Sortable(true);
+
+
+    cols.Add().Sanitized(false).Encoded(false).Titled("Purchase Price").RenderValueAs(
+      e => Model.Brands.First(brands => brands.Name == e.BrandName).Change < 0 ?
+        "<p style='background-color:red; text-align:center'>"+ Model.Brands.First(brands => brands.Name == e.BrandName).Change + "</p>" : "<p style='background-color:blue; text-align:center'>"+ Model.Brands.First(brands => brands.Name == e.BrandName).Change + "</p>"
+        );
+    
+    
+    cols.Add().Filterable(true).Sanitized(false).Encoded(false).RenderValueAs(data =>
+
+      "<button type='submit'  style ='background-color: #EBA91A; width: 50%' onclick=\"buyCompanyAllotment('" + data.BrandName + "' ,'" + customerID + "' , '" +  Model.Brands.First(brands => brands.Name == data.BrandName).SalePrice+ "' , '" + 1  +"' )\">Buy</button>"
+
+      );
+    cols.Add().Sanitized(false).Encoded(false).RenderValueAs(data =>
+
+      "<button type='submit'  style ='background-color: #752852; color: yellow ; width: 50%' onclick=\"buyCompanyAllotment('" + data.BrandName + "' ,'" + customerID + "' , '" + Model.Brands.First(brands => brands.Name == data.BrandName).PurchasePrice+ "' , '" + 0 + "' )\">Sell</button>"
+
+      );
+  }
+    ).SetRowCssClasses(e => "rowCssmodel");
+</div>
+
+<div class="container" id="wholeAllotmentsTable">
+  <span class="grid-filter-btn" title="filter this column"></span>
+
+  
+  @Html.Grid(Model.Brands).Columns(cols =>
+  {
+    cols.Add(data => data.Name).Titled("Brand Name").Filterable(true);
+    cols.Add(data => data.PurchasePrice).Titled("Purchase Price");
+    cols.Add(data => data.SalePrice).Titled("Sale Price");
+    
+    cols.Add().Sanitized(false).Encoded(false).Titled("You Have").RenderValueAs(
+      e =>  Model.Customer.CompanyInvestments.Any(datam => datam.BrandName == e.Name) ? 
+        "<p>"+ Model.Customer.CompanyInvestments.First(datam => datam.BrandName == e.Name).Number  + "</p>" : 
+        "<p>"+ 0 + "</p>").Sortable(true);
+    
+    
+    cols.Add(data => data.Change).Titled("Change").Sanitized(false).Encoded(false).RenderValueAs(e =>
+      e.Change < 0 ? "<p style='background-color:red; text-align:center'>"+ e.Change + "</p>" : "<p style='background-color:blue; text-align:center'>"+ e.Change + "</p>"
+      );
+    
+    cols.Add().Filterable(true).Sanitized(false).Encoded(false).RenderValueAs(data =>
+
+      "<button type='submit'  style ='background-color: #EBA91A; width: 50%' onclick=\"buyCompanyAllotment('" + data.Name + "' ,'" + customerID + "' , '" + data.SalePrice+ "' , '" + 1  +"' )\">Buy</button>"
+
+      );
+    cols.Add().Sanitized(false).Encoded(false).RenderValueAs(data =>
+
+      "<button type='submit'  style ='background-color: #752852; color: yellow ; width: 50%' onclick=\"buyCompanyAllotment('" + data.Name + "' ,'" + customerID + "' , '" + data.PurchasePrice+ "' , '" + 0 + "' )\">Sell</button>"
+
+      );
+  }
+    ).WithPaging(30).Sortable(true).SetRowCssClasses(e => "rowCssmodel");
+</div>
+
+<div id="showmodal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Allotment</h4>
+    </div>
+        <div class="modal-body">
+          <p id="description"> Buy or Sell company allotments <b id="nameofCompany"> </b></p>
+          <div class="left">
+            <p class="fruit11">Allotment - <input type="number" id="allotmentInput" class="shoppinginput" onChange="onChangeAllotmentAmount( document.getElementById('allotmentInput').value )"> </p>
+            <p style=" display: flex;
+                              align-items: center;
+                              margin-bottom: 20px; " class="fruit12">Total price = ₺  <output id="totalPrice">0</output></p>
+          </div>
+          
+        </div>
+    <div class="modal-footer" >
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       <button type="button" class="btn btn-primary" onclick="completePurchase()" >Save changes</button>
+    </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div id="showExchange" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Exchange office</h4>
+    </div>
+        <div class="modal-body">
+          <p id="descriptionExchance"> How much <b id="nameofCurrency"> </b> do you want to <b id="buyorsell"></b> ?</p>
+          <p > Amount - <input type="number"  id="moneyAmount4" name="moneyAmount" maxlength="8" onchange="calculateTotalPrice(document.getElementById('moneyAmount4').value)"></p>
+          <div class="left">
+            <p class="fruit11"> <b  id="fromorto"></b>
+            <select name="currencySelector" onclick="arrangeListItems()" onchange="">
+                <option value="" disabled="disabled" selected="selected" id="dropdownContent">Select your currency</option>
+                <option value="currency1" id="cur1"></option>
+                <option value="currency2" id="cur2" ></option>
+                <option value="currency3" id="cur3"></option>
+            </select>
+              
+              </p>
+            <p style=" display: flex;
+                              align-items: center;
+                              margin-bottom: 20px; " class="fruit12">Total price = ₺  <output id="MoneyPrice">0</output></p>
+          </div>
+          
+        </div>
+    <div class="modal-footer" >
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       <button type="button" class="btn btn-primary" id="completeExchangeOperation" >Save changes</button>
+    </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<style>
+.smallerthanzero{
+background-color: red;
+}
+.rowCssmodel{
+background-color: #bce8f1;
+}
+.companyCards{
+background: white;
+position: relative;
+}
+  body {
+    background-color: #100e17;
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+.thecontainerr {
+  position: relative;
+  height: 300px;
+  width: 600px;
+  top: 60px;
+  left: calc(50% - 300px);
+  display: flex;
+}
+
+
+.card {
+  display: flex;
+  height: 280px;
+  width: 200px;
+  background-color: #17141d;
+  border-radius: 10px;
+  box-shadow: -1rem 0 3rem #000;
+/*   margin-left: -50px; */
+  transition: 0.4s ease-out;
+  position: relative;
+  left: 0px;
+  
+}
+
+.card:not(:first-child) {
+    margin-left: -50px;
+}
+
+.card:hover {
+  transform: translateY(-20px);
+  transition: 0.4s ease-out;
+}
+
+.card:hover ~ .card {
+  position: relative;
+  left: 50px;
+  transition: 0.4s ease-out;
+}
+.bugdet{
+ text-align: center;
+ margin: 10px 10px 10px 10px;
+}
+.title {
+  color: white;
+  font-weight: 300;
+  position: absolute;
+  left: 20px;
+  top: 15px;
+}
+
+.bar {
+  position: absolute;
+  top: 100px;
+  left: 20px;
+  height: 5px;
+  width: 150px;
+}
+
+.emptybar {
+  background-color: #2e3033;
+  width: 100%;
+  height: 100%;
+}
+
+.filledbar {
+  position: absolute;
+  top: 0px;
+  z-index: 3;
+  width: 0px;
+  height: 100%;
+  background: rgb(0,154,217);
+  background: linear-gradient(90deg, rgba(0,154,217,1) 0%, rgba(217,147,0,1) 65%, rgba(255,186,0,1) 100%);
+  transition: 0.6s ease-out;
+}
+
+.card:hover .filledbar {
+  width: 120px;
+  transition: 0.4s ease-out;
+}
+
+.circle {
+  position: absolute;
+  top: 150px;
+  left: calc(50% - 60px);
+}
+
+.stroke {
+  stroke: white;
+  stroke-dasharray: 360;
+  stroke-dashoffset: 360;
+  transition: 0.6s ease-out;
+ 
+  text-decoration-color: #ebebeb;
+}
+
+svg {
+  fill: #17141d;
+  stroke-width: 2px;
+ 
+}
+
+.card:hover .stroke {
+  stroke-dashoffset: 100;
+  transition: 0.6s ease-out;
+}
+</style>
+
+<script>
+
+function onclickwithmodel(){
+  console.log("on clicked" );
+}
+const user = {
+  userId : 0,
+  companyName :"",
+  allotmentAmount : 0,
+  pricePerAllotment : 0,
+  process : -1
+  
+}
+
+const userExchange = {
+   currencyName : "",
+   operation : -1,
+   from :-1,
+   to:-1,
+   operationOnMoneyAccount : "",
+   fromcurrency :"",
+   tocurrency : "",
+   fromAmount : -1,
+   toAmount : -1,
+   
+   opened : false,
+   openedCurrency : "",
+   fromAccount: "",
+   toAccount: "",
+   fromAmount1 :0,
+   toAmount1 : 0,
+   openedWith : ""
+  
+}
+
+function arrangeFromCurrencyName(currencyName, opened = false){
+    userExchange.currencyName = currencyName;
+    userExchange.fromAccount = currencyName;
+
+    if (opened){
+          document.getElementById('nameofCurrency').innerText = currencyName;
+    }
+    document.getElementById('buyorsell').innerText = "sell";
+    document.getElementById('fromorto').innerText = "To - ";
+    $('#showExchange').modal('show').show();
+    userExchange.fromcurrency = currencyName;
+    userExchange.openedCurrency = currencyName;
+  userExchange.openedWith = "from";
+
+  }
+  
+function arrangeToCurrencyName(currencyName, opened = false){
+    userExchange.currencyName = currencyName;
+  if (opened){
+          document.getElementById('nameofCurrency').innerText = currencyName;
+
+  }
+    document.getElementById('buyorsell').innerText = "buy";
+
+     document.getElementById('fromorto').innerText = "From - ";
+
+        $('#showExchange').modal('show').show();
+  userExchange.tocurrency = currencyName;
+  userExchange.openedCurrency = currencyName;
+  userExchange.toAccount = currencyName;
+  userExchange.openedWith = "to";
+}
+
+
+
+function calculateTotalPrice(priceInpt){
+   console.log("price Inpt )> " + priceInpt);
+      userExchange.fromAmount1 = priceInpt;
+      
+  if (userExchange.openedWith === "to"){    
+   $.ajax({
+   
+             url: '/User/Convert?fromCurrency=' + userExchange.openedCurrency + '&toCurrency=' + $('select[name=currencySelector] option').filter(':selected').text() + '&amount=' + priceInpt
+             + '&fromAccount=' + $('select[name=currencySelector] option').filter(':selected').text() 
+             + '&toAccount=' + userExchange.toAccount 
+             + '&userId=' + @customerID
+             + '&buyorSell=' + 1
+             
+             
+             
+             
+             ,
+             success: function(data) {
+                                                
+             console.log(data);
+             
+               console.log("from am to am => " + userExchange.fromAmount1  +"   "+userExchange.toAmount1)
+
+             }, error: function (){
+             alert("İşlem tamamlanamadı");                                 
+             }
+                                          
+            });
+   
+   }else{
+            $.ajax({
+       
+                 url: '/User/Convert?fromCurrency=' + userExchange.openedCurrency + '&toCurrency=' + $('select[name=currencySelector] option').filter(':selected').text() + '&amount=' + priceInpt
+                 + '&fromAccount=' +userExchange.openedCurrency 
+                 + '&toAccount=' + $('select[name=currencySelector] option').filter(':selected').text() 
+                 + '&userId=' + @customerID
+                 + '&buyorSell=' + 0
+                 
+                 
+                 
+                 ,
+                 success: function(data) {
+                                                    
+                 console.log(data);
+                 
+                   console.log("from am to am => " + userExchange.fromAmount1  +"   "+userExchange.toAmount1)
+    
+                 }, error: function (){
+                 alert("İşlem tamamlanamadı");                                 
+                 }
+                                              
+                });
+    
+    
+   }
+  
+  
+}
+
+
+
+function calculateFromPrice(priceInput){
+  priceInput = parseFloat(priceInput);
+  console.log("price input => " + priceInput+ " to currency => " + userExchange.tocurrency + " from currency => " + userExchange.fromcurrency)  
+  var dollar_amount;
+  if (userExchange.fromcurrency === "turkish lira"){
+    dollar_amount = priceInput / @Model.Currencies.turkish_lira;
+      console.log("dollar_amount calculated in turkish lira => " + dollar_amount);
+  }else if (userExchange.fromcurrency ==="euro"){
+     dollar_amount = priceInput / @Model.Currencies.euro;
+     console.log("dollar_amount calculated in euro => " + dollar_amount);
+  }else if (userExchange.fromcurrency ==="gold"){
+     dollar_amount = priceInput / @Model.Currencies.gold;
+     console.log("dollar_amount calculated in gold => " + dollar_amount);
+  }else if (userExchange.fromcurrency ==="dollar"){
+     dollar_amount = priceInput;
+  }
+  var toAmount;
+  if (userExchange.tocurrency === "turkish lira"){
+    toAmount = dollar_amount * @Model.Currencies.turkish_lira;
+  }else if (userExchange.tocurrency === "euro"){
+     toAmount = parseFloat(dollar_amount * parseFloat(@Model.Currencies.euro));
+    console.log("toAmount calculated in euro => " + toAmount);
+    console.log("toAmount calculated in turkish_lira => " + toAmount + "dolar amount => " + dollar_amount + " turkish lira in model => " + @Model.Currencies.euro );
+  }else if (userExchange.tocurrency === "gold"){
+    toAmount = parseFloat(dollar_amount * @Model.Currencies.gold);
+    console.log("toAmount calculated in gold => " + toAmount);
+  }else if (userExchange.tocurrency === "dollar"){
+    toAmount = parseFloat(dollar_amount);
+    
+  }
+  
+  userExchange.fromAmount = priceInput;
+  userExchange.toAmount = toAmount;
+ document.getElementById('MoneyPrice').innerText = toAmount;
+}
+function degistiFunc(matext){
+  console.log("degistifunc calisdiiii => " + matext);
+  if (document.getElementById('fromorto').innerText === "From - "){
+      userExchange.fromcurrency = matext;
+  }else{
+          userExchange.tocurrency = matext;
+
+  }
+  //  document.getElementById('nameofCurrency').innerText = matext;
+}
+function arrangeListItems(){
+  if (userExchange.currencyName === "dollar"){
+    document.getElementById('cur1').innerText = "turkish lira";
+    document.getElementById('cur2').innerText = "euro";
+    document.getElementById('cur3').innerText = "gold";
+    
+
+  }else if (userExchange.currencyName === "euro"){
+    document.getElementById('cur1').innerText = "turkish lira";
+    document.getElementById('cur2').innerText = "dollar";
+    document.getElementById('cur3').innerText = "gold";
+
+  }else if (userExchange.currencyName === "turkish lira"){
+    document.getElementById('cur1').innerText = "gold";
+    document.getElementById('cur2').innerText = "euro";
+    document.getElementById('cur3').innerText = "dollar";
+
+  }else{
+        document.getElementById('cur1').innerText = "turkish lira";
+        document.getElementById('cur2').innerText = "euro";
+        document.getElementById('cur3').innerText = "dollar";
+  }
+  
+  
+  
+}
+
+function startExchange(currencyName, operation){
+  userExchange.currencyName = currencyName;
+  userExchange.operation = operation;
+  if (userExchange.operation === 0){
+        document.getElementById('fromorto').innerText = "To - ";
+        userExchange.from = 0;
+        userExchange.to = 1;
+    }else{
+        document.getElementById('fromorto').innerText = "From - ";
+          userExchange.from = 1;
+          userExchange.to = 0;
+    }
+  document.getElementById('nameofCurrency').innerText = currencyName;
+   $('#showExchange').modal('show').show();
+}
+
+function completePurchase(){
+  if (user.process === 1){
+         $.ajax({
+                                        //int customerId, string companyName, int amount, int price
+                                         url: '/User/GetCompanyAllotment?customerId=' + user.userId + "&companyName="+ user.companyName + "&amount="+ user.allotmentAmount ,
+                                         success: function(data) {
+                                              // your data could be a View or Json or what ever you returned in your action method 
+                                              // parse your data here
+                                            alert(data);
+                                              
+                                         }, error: function (){
+                                             alert("İşlem tamamlanamadı");
+                                         }
+                                       
+                                     });
+        }else{
+            
+               $.ajax({                                                     
+                          url: '/User/SellCompanyAllotment?customerId=' + user.userId + "&companyName="+ user.companyName + "&amount="+ user.allotmentAmount ,
+                          success: function(data) {
+                                    alert(data);
+                                                          
+                                    }, error: function (){
+                                       alert("İşlem tamamlanamadı");
+                                    
+                          }
+                                                     
+                                                  
+               });
+        }
+        
+  }
+function buyCompanyAllotment(companyName,userId ,pricePerAllotment, processId){
+  "use strict";
+  document.getElementById('description').innerText = "How many allotment do you want to get from " + companyName + " ? " ;
+   user.pricePerAllotment = pricePerAllotment;
+    user.process = parseInt(processId);
+  $('#showmodal').modal('show').show();
+  
+  user.userId = userId;
+  user.companyName =  companyName;
+}
+
+function onChangeAllotmentAmount(amount){
+  let totalPrice = parseInt(amount) * parseInt(user.pricePerAllotment);
+  user.allotmentAmount = amount;
+    document.getElementById('totalPrice').value = "  "  + totalPrice ;
+}
+
+
+
+
+
+function buyCompany(companyName, amount, customerId, pricePerAllotment){
+      document.getElementById('deneme1234').innerText = "değiştirildi  ...  " + companyName + " " + amount + " " + customerId ;
+     $('#showmodal').modal('show').show();
+      document.getElementById('contentOfModal').innerText = "How many allotment do you want to get from ";
+      document.getElementById('companyName').innerText = companyName;
+      document.getElementById('userId').innerText = customerId;
+   
+  }
+
+
+  
+  function showBudged(elemId, flag, sign, currency){
+    if (flag){
+     
+        switch(currency) {
+          case "tl":
+            document.getElementById(elemId).innerText = 
+            @Model.Customer.MoneyInvestment.turkish_lira + " " + sign ;
+            break;
+          case "dollar":
+            document.getElementById(elemId).innerText = 
+                        @Model.Customer.MoneyInvestment.dollar + " " + sign ;
+            break;
+          case "euro":
+            document.getElementById(elemId).innerText = 
+                        @Model.Customer.MoneyInvestment.euro + " " + sign ;
+            break;
+          case "gold":
+            document.getElementById(elemId).innerText = 
+                        @Model.Customer.MoneyInvestment.gold + " " + sign ;
+            break;
+          default:
+            // code block
+        }
+      
+    }else{
+      document.getElementById(elemId).innerText = "";
+    }
+  }
+  
+  
+</script>
+ 
+
+ 

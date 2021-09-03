@@ -1,0 +1,28 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <script>
+    /*
+    $(document).ready(
+        function(){
+            $("p").click(function (){
+        $("p").hide();    
+    })});
+    */
+    </script>
+</head>
+<h2>title</h2>
+
+<button type="button" onclick="deneme()"> dwtsedgf</button>
+<p id="deneme" onclick="deneme()">gizlenmeli</p>
+
+<script>
+function deneme(){
+    document.getElementById('deneme').innerHTML = "gizlenmedi brom";    
+}
+
+</script>

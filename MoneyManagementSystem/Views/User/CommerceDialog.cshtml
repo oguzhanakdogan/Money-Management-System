@@ -1,0 +1,42 @@
+﻿@model dynamic
+
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Modal title</h4>
+</div>
+<div class="modal-body">
+    <text id="contentOfModal" ></text>
+    <b id="companyName"></b> 
+     <b id="userId" ></b>   
+</div>
+<div class="modal-footer" >
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-primary" onclick="buyCompanyAllotment(document.getElementById('companyName').innerText, 5, document.getElementById('userId').innerText)" >Save changes</button>
+</div>
+
+
+
+<script>
+
+    function buyCompanyAllotment(companyName, amount, customerId){
+         $.ajax({
+                                        //int customerId, string companyName, int amount, int price
+                                         url: '/User/GetCompanyAllotment?customerId=' + customerId + "&companyName="+companyName + "&amount="+ amount ,
+                                         success: function(data) {
+                                              // your data could be a View or Json or what ever you returned in your action method 
+                                              // parse your data here
+                                            alert(data);
+                                              
+                                         }, error: function (){
+                                             alert("İşlem tamamlanamadı");
+                                             
+                                            
+                                         }
+                                       
+                                     });
+        
+        
+    }
+
+</script>

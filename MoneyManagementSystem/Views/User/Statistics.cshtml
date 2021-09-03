@@ -1,0 +1,53 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/User/DashBoard.cshtml";
+}
+<head>
+    
+	<script>
+	
+	
+	
+  window.onload = function () {
+   
+  let chart = new CanvasJS.Chart("chartContainer", {
+  	theme: "light2",
+  	animationEnabled: true,
+  	title: {
+  		text: "Comparison of Exchange Rates"
+  	},
+  	axisX: {
+  		title: "1 USD against Euro "
+  	},
+  	axisY: {
+  		prefix: "€"
+  	},
+  	data: [{
+  		type: "area",
+  		name: "euro",
+  		color: "#0BB5FF",
+  		markerSize: 0,
+  		xValueType:"dateTime",
+  		xValueFormatString: "YYYY MM",
+        yValueFormatString: "€#,##0.##",
+  		dataPoints: @Html.Raw(ViewBag.DataPoints)
+  	}]
+  });
+  chart.render();
+   
+  }
+  </script>
+</head>
+<h2>title</h2>
+
+<body>
+
+
+
+
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>	
+
+</body>
